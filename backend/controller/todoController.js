@@ -51,17 +51,17 @@ const deleteTodo = async (req, res) => {
 
 
 const updateTodo = async (req, res) => {
-    console.log(req.query.id,)
+    console.log(req.query.id)
 
     try {
         let {title,description,isCompleted}=  req.body
-        let updateTodo = await Todos.findByIdAndUpdate(req.query.id, {title,description,isComplete})
+        let updateTodo = await Todos.findByIdAndUpdate(req.query.id, {title,description,isCompleted})
 
         if (!updateTodo) {
             return res.status(404).json({ message: 'todo not found' })
         }
         return res.json({ message: 'Todo updated Successfully' })
-
+ 
 
 
     } catch (error) {
