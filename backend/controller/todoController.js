@@ -21,7 +21,6 @@ let creatTodos = async (req, res) => {
 let getTodos = async (req, res) => {
     try {
         let todos = await Todos.find()
-        console.log(todos)
         res.json(todos)
 
     } catch (error) {

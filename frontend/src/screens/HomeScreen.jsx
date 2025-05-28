@@ -1,55 +1,73 @@
-import React from "react";
+
 import "./HomeScreen.css";
-import { useState } from "react";
+import { useState,useEffect } from "react";
+import BackendInstance from "../Axios";
 
 function HomeScreen() {
-  let [fname, setFname] = useState("");
-  let [lname, setLname] = useState("");
+  let [title, setTitle] = useState("");
+  let [description, setDescription] = useState("");
+  let [todos, setTodos] = useState([])
+
+
+  const getTodos = async () => {
+    let response = await BackendInstance.get('/getTodos')
+    setTodos(response.data)
+  }
+
+  useEffect(()=>{
+  getTodos();
+  },[])
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(fname);
-    console.log(lname);
+    await BackendInstance .post('/',{title,description});
+    getTodos()
   };
+  
 
   return (
-    <div className="main">
-      <div className="left_side_box">
-        <h1 className="left_text">Welcome </h1>
-      </div>
+    <>
+      <button className="delete-btn">Logout</button>
 
-      <div className="right_side_form">
-        <div className="form">
-          <h1 className="form_head">Fill The Form</h1>
+      <div className="container">
+        <div className="form-container">
           <form onSubmit={submitHandler}>
-            <label className="form_label-1" for="fname">
-              First Name:{" "}
-            </label>
             <input
-              className="form_inpt-1 form_style"
               type="text"
-              placeholder="Enter Name"
-              value={fname}
-              onChange={(e) => setFname(e.target.value)}
+              placeholder="Enter Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
-            <br />
-            <label className="form_label-1" for="fname">
-              Last Name:{" "}
-            </label>
-            <input
-              className="form_input-2 form_style"
-              placeholder="Enter Last Name"
-              value={lname}
-              onChange={(e) => setLname(e.target.value)}
-            />
-            <br />
-            <button className="btn" type="submit">
-              Submit
-            </button>
+
+            <textarea
+              rows={5}
+              cols={10}
+              placeholder="Enter Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            ></textarea>
+
+            <button type="submit">Add</button>
           </form>
         </div>
+
+        <div className="todos-container">
+          {todos?.map((todo) => (
+            <div className="box todo-card" key={todo._id}>
+              <h1 className={todo.status ? "completed" : "todo-title"}>
+                {todo.title}
+              </h1>
+              <p className="todo-description">{todo.description}</p>
+              <div className="button-group">
+                <button className="delete-btn">Delete</button>
+                {!todo.status && <button className="edit-btn">Edit</button>}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
+
   );
 }
 
