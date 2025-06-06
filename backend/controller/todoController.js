@@ -54,7 +54,7 @@ const updateTodo = async (req, res) => {
 
     try {
         let {title,description,isCompleted}=  req.body
-        let updateTodo = await Todos.findByIdAndUpdate(req.query.id, {title,description,isCompleted})
+        let updateTodo = await Todos.findByIdAndUpdate(req.body.id, {title,description,isCompleted})
 
         if (!updateTodo) {
             return res.status(404).json({ message: 'todo not found' })
@@ -70,7 +70,20 @@ const updateTodo = async (req, res) => {
 }
 
 
+const getTodoById=async(req,res)=>{
+    try {
+     let {id} = req.query
+     
+     const todo= await Todos.findById(id)
+     res.json(todo)
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+
+
 
 export {
-    creatTodos, getTodos, updateTodo, deleteTodo
+    creatTodos, getTodos, updateTodo, deleteTodo,getTodoById
 }

@@ -1,6 +1,6 @@
 import express from 'express'
 import Todos from '../models/todoModels.js';
-import { creatTodos,getTodos ,updateTodo,deleteTodo} from '../controller/todoController.js';
+import { creatTodos,getTodos ,updateTodo,deleteTodo, getTodoById} from '../controller/todoController.js';
 
 
 
@@ -14,5 +14,7 @@ todoRouter.get('/getTodos',getTodos)
 todoRouter.patch('/updatetodo', updateTodo)
 
 todoRouter.delete('/:id', deleteTodo)
+
+todoRouter.get('/getTodoById' ,getTodoById)
 
 export default todoRouter

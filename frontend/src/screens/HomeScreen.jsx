@@ -2,34 +2,44 @@ import "./HomeScreen.css";
 import { useState, useEffect } from "react";
 import BackendInstance from "../Axios";
 import { useNavigate } from "react-router-dom";
+import {
+  useGetTodosQuery,
+  useCreateTodoMutation,
+  useDeleteTodoMutation
+} from "../slices/todoApiSlices";
 
 function HomeScreen() {
   let [title, setTitle] = useState("");
   let [description, setDescription] = useState("");
-  let [todos, setTodos] = useState([]);
 
   const navigate = useNavigate();
 
-  const getTodos = async () => {
-    let response = await BackendInstance.get("/getTodos");
-    setTodos(response.data);
-  };
+  const { data: todos, refetch } = useGetTodosQuery();
 
-  useEffect(() => {
-    getTodos();
-  }, []);
+  const [creatTodo] = useCreateTodoMutation();
+
+  const [deleteTodo]= useDeleteTodoMutation()
 
   const submitHandler = async (e) => {
-    e.preventDefault();
-    await BackendInstance.post("/", { title, description });
-    getTodos();
-    setTitle("");
-    setDescription("");
+    try {
+      e.preventDefault();
+      await creatTodo({ title, description });
+      setTitle("");
+      setDescription("");
+      refetch();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const deleteHandler = async (id) => {
-    await BackendInstance.delete(`/${id}`);
-    getTodos();
+   try {
+     await deleteTodo(id)
+    refetch();
+   } catch (error) {
+    console.log(error);
+    
+   }
   };
 
   return (
