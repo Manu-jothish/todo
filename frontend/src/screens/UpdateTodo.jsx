@@ -4,7 +4,7 @@ import { useParams,useNavigate } from 'react-router-dom'
 import { useGetTodoByIdQuery,useUpdateTodoMutation ,useGetTodosQuery} from '../slices/todoApiSlices'
 
 
-function UpdateTodo() {
+function  UpdateTodo() {
 
     const {id}=useParams()
     const [updateTodo]=useUpdateTodoMutation()

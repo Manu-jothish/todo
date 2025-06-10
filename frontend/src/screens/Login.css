@@ -1,0 +1,29 @@
+     
+*{
+       margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.main{
+    margin-top: 100px;
+}
+.login-head{
+    text-align: center;
+}
+.container{
+  justify-content: center;
+  align-content: center;
+}
+.login-style{
+    color: blue;
+}
+.form-container{
+    width: 350px;
+}
+.form-container input{
+width: 300px;
+}
+.login-btn{
+    width: 200px;
+    margin-left: 50px;
+}
